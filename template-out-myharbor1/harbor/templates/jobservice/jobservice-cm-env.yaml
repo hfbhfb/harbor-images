@@ -1,0 +1,23 @@
+---
+# Source: harbor/templates/jobservice/jobservice-cm-env.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "myharbor1-jobservice-env"
+  labels:
+    heritage: Helm
+    release: myharbor1
+    chart: harbor
+    app: "harbor"
+data:
+  CORE_URL: "http://myharbor1-core:80"
+  TOKEN_SERVICE_URL: "http://myharbor1-core:80/service/token"
+  REGISTRY_URL: "http://myharbor1-registry:5000"
+  REGISTRY_CONTROLLER_URL: "http://myharbor1-registry:8080"
+  REGISTRY_CREDENTIAL_USERNAME: "harbor_registry_user"
+
+  JOBSERVICE_WEBHOOK_JOB_MAX_RETRY: "3"
+  JOBSERVICE_WEBHOOK_JOB_HTTP_CLIENT_TIMEOUT: "3"
+  HTTP_PROXY: ""
+  HTTPS_PROXY: ""
+  NO_PROXY: "myharbor1-core,myharbor1-jobservice,myharbor1-database,myharbor1-registry,myharbor1-portal,myharbor1-trivy,myharbor1-exporter,127.0.0.1,localhost,.local,.internal"

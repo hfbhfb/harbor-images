@@ -1,0 +1,50 @@
+---
+# Source: harbor/templates/core/core-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myharbor1-core
+  labels:
+    heritage: Helm
+    release: myharbor1
+    chart: harbor
+    app: "harbor"
+data:
+  app.conf: |+
+    appname = Harbor
+    runmode = prod
+    enablegzip = true
+
+    [prod]
+    httpport = 8080
+  PORT: "8080"
+  DATABASE_TYPE: "postgresql"
+  POSTGRESQL_HOST: "myharbor1-database"
+  POSTGRESQL_PORT: "5432"
+  POSTGRESQL_USERNAME: "postgres"
+  POSTGRESQL_DATABASE: "registry"
+  POSTGRESQL_SSLMODE: "disable"
+  POSTGRESQL_MAX_IDLE_CONNS: "100"
+  POSTGRESQL_MAX_OPEN_CONNS: "900"
+  EXT_ENDPOINT: "https://myharbor1.com:32443"
+  CORE_URL: "http://myharbor1-core:80"
+  JOBSERVICE_URL: "http://myharbor1-jobservice"
+  REGISTRY_URL: "http://myharbor1-registry:5000"
+  TOKEN_SERVICE_URL: "http://myharbor1-core:80/service/token"
+  CORE_LOCAL_URL: "http://127.0.0.1:8080"
+  WITH_TRIVY: "true"
+  TRIVY_ADAPTER_URL: "http://myharbor1-trivy:8080"
+  REGISTRY_STORAGE_PROVIDER_NAME: "filesystem"
+  LOG_LEVEL: "info"
+  CONFIG_PATH: "/etc/core/app.conf"
+  CHART_CACHE_DRIVER: "redis"
+  _REDIS_URL_CORE: "redis://myharbor1-redis:6379/0?idle_timeout_seconds=30"
+  _REDIS_URL_REG: "redis://myharbor1-redis:6379/2?idle_timeout_seconds=30"  
+  PORTAL_URL: "http://myharbor1-portal"
+  REGISTRY_CONTROLLER_URL: "http://myharbor1-registry:8080"
+  REGISTRY_CREDENTIAL_USERNAME: "harbor_registry_user"
+  HTTP_PROXY: ""
+  HTTPS_PROXY: ""
+  NO_PROXY: "myharbor1-core,myharbor1-jobservice,myharbor1-database,myharbor1-registry,myharbor1-portal,myharbor1-trivy,myharbor1-exporter,127.0.0.1,localhost,.local,.internal"
+  PERMITTED_REGISTRY_TYPES_FOR_PROXY_CACHE: "docker-hub,harbor,azure-acr,aws-ecr,google-gcr,quay,docker-registry,github-ghcr,jfrog-artifactory"
+  QUOTA_UPDATE_PROVIDER: "db"

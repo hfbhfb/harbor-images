@@ -1,0 +1,26 @@
+persistence:
+  persistentVolumeClaim:
+    registry:
+      storageClass: "mylocalsc1"
+    jobservice:
+      jobLog:
+        storageClass: "mylocalsc1"
+    database:
+      storageClass: "mylocalsc1"
+    redis:
+      storageClass: "mylocalsc1"
+    trivy:
+      storageClass: "mylocalsc1"
+expose:
+  tls:
+    certSource: secret
+    secret: 
+      secretName: "lts-aa111"
+  ingress:
+    className: "myingress3" #
+    hosts:
+      core: myharbor1.com
+      notary: notary.myharbor1.com
+externalURL: https://myharbor1.com:32443  # 32443 是ingress controller的nodeport端口
+harborAdminPassword: "Harbor12345"
+

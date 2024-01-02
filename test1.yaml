@@ -1,0 +1,65 @@
+
+
+# **marka-dd-k8s-ing-id574snsi**
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-n371yuua
+  name: nginx-n371yuua
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-n371yuua
+  template:
+    metadata:
+      labels:
+        app: nginx-n371yuua
+    spec:
+      containers:
+      - name: nginx-n371yuua
+        image: myharbor1.com:32443/library/nginx:1.14.2
+        # image: hefabao/mygrace:0.1
+        imagePullPolicy: IfNotPresent
+        # command: ["sh","-c",'which sleep; sleep 99998; sleep 779;']
+        # command: ["sleep 99998;"]
+      terminationGracePeriodSeconds: 400 # 优雅退出时间,默认为30秒
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-n371yuua
+  name: nginx-n371yuua
+spec:
+  ports:
+  - name: service0
+    port: 80                 # 访问Service的端口
+    protocol: TCP           # 访问Service的协议，支持TCP和UDP
+    targetPort: 80           # Service访问目标容器的端口，本例中nginx镜像默认使用80端口
+  selector:                  # 标签选择器，Service通过标签选择Pod，将访问Service的流量转发给Pod
+    app: nginx-n371yuua
+  type: ClusterIP            # Service的类型，ClusterIP表示在集群内访问
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-n371yuua
+spec:
+  ingressClassName: myingress3
+  rules:
+    - host: nginx-n371yuua.com
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: nginx-n371yuua
+                port:
+                  number: 80
+            path: /
+
