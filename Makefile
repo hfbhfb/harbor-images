@@ -26,7 +26,7 @@ build-template: ns
 	helm template harbor/ --namespace  ${Space} --values ./values.yaml --name-template ${helmAppName} --output-dir template-out-${helmAppName} --debug
 
 
-install:
+install: create-tls
 	-kubectl create ns harbor
 	helm install harbor/ --namespace  ${Space} --values ./values.yaml --name-template ${helmAppName}
 

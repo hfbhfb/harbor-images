@@ -18,3 +18,7 @@ docker push myharbor1.com:32443/library/nginx:1.14.2
 4. 使用刚上传的镜像
 make test1
 
+
+
+#### 访问   harborAdminPassword: "Harbor12345" 
+https://myharbor1.com:32443/
