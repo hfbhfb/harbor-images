@@ -27,6 +27,7 @@ build-template: ns
 
 
 install:
+	-kubectl create ns harbor
 	helm install harbor/ --namespace  ${Space} --values ./values.yaml --name-template ${helmAppName}
 
 uninstall:
