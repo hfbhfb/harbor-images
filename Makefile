@@ -26,13 +26,15 @@ build-template: ns
 	helm template harbor/ --namespace  ${Space} --values ./values.yaml --name-template ${helmAppName} --output-dir template-out-${helmAppName} --debug
 
 
-install: create-tls
+install: nscreate create-tls
 	-kubectl create ns harbor
 	helm install harbor/ --namespace  ${Space} --values ./values.yaml --name-template ${helmAppName}
 
 uninstall:
 	helm uninstall  --namespace  ${Space}  ${helmAppName}
 
+nscreate:
+	-kubectl create ns  ${Space}
 
 create-tls:  # 生成证书
 	@echo “生成证书 开始”
