@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: nginx-n371yuua
-        image: myharbor1.com:32443/library/nginx:1.14.2
+        image: nginx:1.14.2
         # image: hefabao/mygrace:0.1
         imagePullPolicy: IfNotPresent
         # command: ["sh","-c",'which sleep; sleep 99998; sleep 779;']

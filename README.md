@@ -10,16 +10,16 @@ make install
 make ca-to-alldevice
 
 3. 上传镜像
-docker login myharbor1.com:32443
+docker login myharbor1.com
 docker pull ubuntu/nginx:1.18-20.04_beta
-docker tag ubuntu/nginx:1.18-20.04_beta myharbor1.com:32443/library/ubuntu/nginx:latest
-docker tag ubuntu/nginx:1.18-20.04_beta myharbor1.com:32443/library/ubuntu/nginx:1.18-20.04_beta
-docker push myharbor1.com:32443/library/ubuntu/nginx:latest
-docker push myharbor1.com:32443/library/ubuntu/nginx:1.18-20.04_beta
+docker tag ubuntu/nginx:1.18-20.04_beta myharbor1.com/library/ubuntu/nginx:latest
+docker tag ubuntu/nginx:1.18-20.04_beta myharbor1.com/library/ubuntu/nginx:1.18-20.04_beta
+docker push myharbor1.com/library/ubuntu/nginx:latest
+docker push myharbor1.com/library/ubuntu/nginx:1.18-20.04_beta
 
 # harbor页面新创建一个项目group2
-# docker tag ubuntu/nginx:1.18-20.04_beta myharbor1.com:32443/group2/ubuntu/nginx:1.18-20.04_beta
-# docker push myharbor1.com:32443/group2/ubuntu/nginx:1.18-20.04_beta
+# docker tag ubuntu/nginx:1.18-20.04_beta myharbor1.com/group2/ubuntu/nginx:1.18-20.04_beta
+# docker push myharbor1.com/group2/ubuntu/nginx:1.18-20.04_beta
 
 
 
@@ -30,7 +30,7 @@ make test1
 
 
 #### 访问   harborAdminPassword: "Harbor12345" 
-https://myharbor1.com:32443/
+https://myharbor1.com/
 
-curl -k -X GET -u 'admin:Harbor12345' https://myharbor1.com:32443/v2/_catalog 
+curl -k -X GET -u 'admin:Harbor12345' https://myharbor1.com/v2/_catalog 
 
