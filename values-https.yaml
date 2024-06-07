@@ -13,12 +13,14 @@ persistence:
       storageClass: "mylocalsc1"
 expose:
   tls:
-    enabled: false
+    certSource: secret
+    secret: 
+      secretName: "lts-aa111"
   ingress:
     className: "myingress3" #
     hosts:
       core: myharbor1.com
       notary: notary.myharbor1.com
-externalURL: http://myharbor1.com  # 32443 是ingress controller的nodeport端口
-harborAdminPassword: "admin"
+externalURL: https://myharbor1.com  # 32443 是ingress controller的nodeport端口
+harborAdminPassword: "Harbor12345"
 

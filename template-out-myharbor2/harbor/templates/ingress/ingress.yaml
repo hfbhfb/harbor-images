@@ -3,10 +3,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "myharbor1-ingress"
+  name: "myharbor2-ingress"
   labels:
     heritage: Helm
-    release: myharbor1
+    release: myharbor2
     chart: harbor
     app: "harbor"
   annotations:
@@ -16,6 +16,10 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: myingress3
+  tls:
+  - secretName: lts-aa111
+    hosts:
+    - myharbor1.com
   rules:
   - http:
       paths:
@@ -23,42 +27,42 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: myharbor1-core
+            name: myharbor2-core
             port:
               number: 80
       - path: /service/
         pathType: Prefix
         backend:
           service:
-            name: myharbor1-core
+            name: myharbor2-core
             port:
               number: 80
       - path: /v2/
         pathType: Prefix
         backend:
           service:
-            name: myharbor1-core
+            name: myharbor2-core
             port:
               number: 80
       - path: /chartrepo/
         pathType: Prefix
         backend:
           service:
-            name: myharbor1-core
+            name: myharbor2-core
             port:
               number: 80
       - path: /c/
         pathType: Prefix
         backend:
           service:
-            name: myharbor1-core
+            name: myharbor2-core
             port:
               number: 80
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: myharbor1-portal
+            name: myharbor2-portal
             port:
               number: 80
     host: myharbor1.com

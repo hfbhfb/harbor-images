@@ -50,7 +50,7 @@ nscreate:
 	-kubectl create ns  ${Space}
 
 
-root-ca:
+rootca:
 	mkdir rootca;
 	# 创建CA私钥
 	cd rootca;openssl genrsa -out myca.key 2048
@@ -64,19 +64,37 @@ root-ca:
 	cd rootca;openssl x509 -req -in ./myca.csr -extensions v3_ca -signkey ./myca.key -out ./myca.crt
 
 create-tls:  # 生成证书
+	-mkdir pki;
 	@echo “生成证书 开始”
 	@echo "生成私钥 由私钥创建待签名证书 .csr"
 	cd pki; openssl genrsa -out ${cnName}.key 2048
 	# 由私钥创建待签名证书 .csr (配置证书要请求的信息)
 	cd pki; openssl req  -new -key ./${cnName}.key -out pub.csr -subj "/C=CN/ST=Beijin/O=Devops/CN=${cnName}" -config ./csr.conf
 	@echo “对服务器证书签名”
-	cd pki;openssl x509 -days 3650 -req -CAkey /d/projs/good-docs/a-k8s相关/a-ingress-nginx主題/ingress-nginx配置缺省泛域名证书/m2/myca.key -CA /d/projs/good-docs/a-k8s相关/a-ingress-nginx主題/ingress-nginx配置缺省泛域名证书/m2/myca.crt -CAcreateserial  -in ./pub.csr  -out ./${cnName}.crt -extfile ./csr.conf -extensions v3_req
+	cd pki;openssl x509 -days 3650 -req -CAkey ../rootca/myca.key -CA ../rootca/myca.crt -CAcreateserial  -in ./pub.csr  -out ./${cnName}.crt -extfile ./csr.conf -extensions v3_req
 	@echo "k8s 操作"
 	-kubectl delete secret ${ltsName} -n ${Space}
 	cd pki;kubectl create secret tls -n ${Space}  ${ltsName} --key ${cnName}.key --cert ${cnName}.crt
 	@echo “生成证书 完成”
 	cd pki; openssl x509 -in ${cnName}.crt -text -noout 
 
+
+ca-to-alldevice:
+	@echo "上传根证书到服务器并重启"
+	# scp ./m2/myca.crt a:/root
+	# scp ./m2/myca.crt b:/root
+	# scp ./m2/myca.crt c:/root
+	# scp ./m2/myca.crt d:/root
+	# @echo "部署"
+	# ssh a "${CMD1}"
+	# ssh b "${CMD1}"
+	# ssh c "${CMD1}"
+	# ssh d "${CMD1}"
+	# @echo "重启docker"
+	# ssh a "${CMD2}"
+	# ssh b "${CMD2}"
+	# ssh c "${CMD2}"
+	# ssh d "${CMD2}"
 
 test1:
 	kubectl apply -f test1.yaml
@@ -90,4 +108,5 @@ pull-helm-tar:
 	# helm repo update harbor
 	# helm search repo harbor -l
 	helm pull harbor/harbor  --untar --version 1.13.1
+
 

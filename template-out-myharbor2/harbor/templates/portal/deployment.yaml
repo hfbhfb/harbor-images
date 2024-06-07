@@ -3,10 +3,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "myharbor1-portal"
+  name: "myharbor2-portal"
   labels:
     heritage: Helm
-    release: myharbor1
+    release: myharbor2
     chart: harbor
     app: "harbor"
     component: portal
@@ -15,17 +15,17 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      release: myharbor1
+      release: myharbor2
       app: "harbor"
       component: portal
   template:
     metadata:
       labels:
-        release: myharbor1
+        release: myharbor2
         app: "harbor"
         component: portal
       annotations:
-        checksum/configmap: 2f7338321a3cd9196b6a70c7b0569506988e2ae46cf674793dd93b2e8f3d634d
+        checksum/configmap: 703e0b3536cdf218d085ca41d25863f4e2583d3f30f30e9feba0bf5809eed639
     spec:
       securityContext:
         runAsUser: 10000
@@ -58,4 +58,4 @@ spec:
       volumes:
       - name: portal-config
         configMap:
-          name: "myharbor1-portal"
+          name: "myharbor2-portal"

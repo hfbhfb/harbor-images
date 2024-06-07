@@ -3,10 +3,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "myharbor1-registry"
+  name: "myharbor2-registry"
   labels:
     heritage: Helm
-    release: myharbor1
+    release: myharbor2
     chart: harbor
     app: "harbor"
     component: registry
@@ -17,22 +17,22 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      release: myharbor1
+      release: myharbor2
       app: "harbor"
       component: registry
   template:
     metadata:
       labels:
         heritage: Helm
-        release: myharbor1
+        release: myharbor2
         chart: harbor
         app: "harbor"
         component: registry
       annotations:
-        checksum/configmap: 326e68a0e61fba2ca0f3c128bff94baf6857556da0e5fba44fb47a288fddc24a
-        checksum/secret: 5a3e7516b331dba50ac933e8cd8e2d59e87a3f1c1386621fbc8b859cec7530a9
-        checksum/secret-jobservice: b094933de789376c3281447ecbe0dbbb6eb82552353c9ee4aa67ce362e3e0db1
-        checksum/secret-core: e5fd4a690d6a04b30019c15e0d06618ad00feec7fff5205b0d14c319efa167fb
+        checksum/configmap: b60f501795bd23447f9b831395b7af050eac09fdb4b9989fc238125b106745b6
+        checksum/secret: 2dd745ce65129b309fba60bbc5490bb308fa682b4650e5adceb25408a01e4a82
+        checksum/secret-jobservice: 244f9b901645ccbd6dab234bc046e4d6517999aaff664a1ee836437459c0432d
+        checksum/secret-core: 3a2d59d3140d9ea574700b8da72071474195790ca188375e552ce27f5bae3663
     spec:
       securityContext:
         runAsUser: 10000
@@ -61,7 +61,7 @@ spec:
         args: ["serve", "/etc/registry/config.yml"]
         envFrom:
         - secretRef:
-            name: "myharbor1-registry"
+            name: "myharbor2-registry"
         env:
         ports:
         - containerPort: 5000
@@ -95,21 +95,21 @@ spec:
           periodSeconds: 10
         envFrom:
         - configMapRef:
-            name: "myharbor1-registryctl"
+            name: "myharbor2-registryctl"
         - secretRef:
-            name: "myharbor1-registry"
+            name: "myharbor2-registry"
         - secretRef:
-            name: "myharbor1-registryctl"
+            name: "myharbor2-registryctl"
         env:
         - name: CORE_SECRET
           valueFrom:
             secretKeyRef:
-              name: myharbor1-core
+              name: myharbor2-core
               key: secret
         - name: JOBSERVICE_SECRET
           valueFrom:
             secretKeyRef:
-              name: myharbor1-jobservice
+              name: myharbor2-jobservice
               key: JOBSERVICE_SECRET
         ports:
         - containerPort: 8080
@@ -126,14 +126,14 @@ spec:
       volumes:
       - name: registry-htpasswd
         secret:
-          secretName: myharbor1-registry-htpasswd
+          secretName: myharbor2-registry-htpasswd
           
           items:
             - key: REGISTRY_HTPASSWD
               path: passwd
       - name: registry-config
         configMap:
-          name: "myharbor1-registry"
+          name: "myharbor2-registry"
       - name: registry-data
         persistentVolumeClaim:
-          claimName: myharbor1-registry
+          claimName: myharbor2-registry

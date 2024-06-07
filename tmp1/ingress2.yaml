@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "myharbor1-ingress"
+  name: "myharborlts-ingress"
   labels:
     heritage: Helm
     release: myharbor1
@@ -16,6 +16,10 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: myingress3
+  tls:
+  - secretName: lts-aa111
+    hosts:
+    - myharborlts.com
   rules:
   - http:
       paths:
@@ -61,4 +65,4 @@ spec:
             name: myharbor1-portal
             port:
               number: 80
-    host: myharbor1.com
+    host: myharborlts.com

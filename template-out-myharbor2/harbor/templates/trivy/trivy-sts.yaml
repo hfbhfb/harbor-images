@@ -3,31 +3,31 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: myharbor1-trivy
+  name: myharbor2-trivy
   labels:
     heritage: Helm
-    release: myharbor1
+    release: myharbor2
     chart: harbor
     app: "harbor"
     component: trivy
 spec:
   replicas: 1
-  serviceName: myharbor1-trivy
+  serviceName: myharbor2-trivy
   selector:
     matchLabels:
-      release: myharbor1
+      release: myharbor2
       app: "harbor"
       component: trivy
   template:
     metadata:
       labels:
         heritage: Helm
-        release: myharbor1
+        release: myharbor2
         chart: harbor
         app: "harbor"
         component: trivy
       annotations:
-        checksum/secret: 6fb49b373a9d0a11c796c369173b24df5c7cb395b0ea7610bfefb23304dd9bf5
+        checksum/secret: d6837805b923cb46fb6ff5b0d07fe98b79be79ba022bc0d53aac21b5899f7563
     spec:
       securityContext:
         runAsUser: 10000
@@ -46,7 +46,7 @@ spec:
             - name: HTTPS_PROXY
               value: ""
             - name: NO_PROXY
-              value: "myharbor1-core,myharbor1-jobservice,myharbor1-database,myharbor1-registry,myharbor1-portal,myharbor1-trivy,myharbor1-exporter,127.0.0.1,localhost,.local,.internal"
+              value: "myharbor2-core,myharbor2-jobservice,myharbor2-database,myharbor2-registry,myharbor2-portal,myharbor2-trivy,myharbor2-exporter,127.0.0.1,localhost,.local,.internal"
             - name: "SCANNER_LOG_LEVEL"
               value: "info"
             - name: "SCANNER_TRIVY_CACHE_DIR"
@@ -62,7 +62,7 @@ spec:
             - name: "SCANNER_TRIVY_GITHUB_TOKEN"
               valueFrom:
                 secretKeyRef:
-                  name: myharbor1-trivy
+                  name: myharbor2-trivy
                   key: gitHubToken
             - name: "SCANNER_TRIVY_SEVERITY"
               value: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
@@ -81,17 +81,17 @@ spec:
             - name: "SCANNER_REDIS_URL"
               valueFrom:
                 secretKeyRef:
-                  name: myharbor1-trivy
+                  name: myharbor2-trivy
                   key: redisURL
             - name: "SCANNER_STORE_REDIS_URL"
               valueFrom:
                 secretKeyRef:
-                  name: myharbor1-trivy
+                  name: myharbor2-trivy
                   key: redisURL
             - name: "SCANNER_JOB_QUEUE_REDIS_URL"
               valueFrom:
                 secretKeyRef:
-                  name: myharbor1-trivy
+                  name: myharbor2-trivy
                   key: redisURL
           ports:
             - name: api-server
@@ -131,7 +131,7 @@ spec:
       name: data
       labels:
         heritage: Helm
-        release: myharbor1
+        release: myharbor2
         chart: harbor
         app: "harbor"
       annotations:

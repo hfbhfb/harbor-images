@@ -3,10 +3,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myharbor1-core
+  name: myharbor2-core
   labels:
     heritage: Helm
-    release: myharbor1
+    release: myharbor2
     chart: harbor
     app: "harbor"
     component: core
@@ -15,19 +15,19 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      release: myharbor1
+      release: myharbor2
       app: "harbor"
       component: core
   template:
     metadata:
       labels:
-        release: myharbor1
+        release: myharbor2
         app: "harbor"
         component: core
       annotations:
-        checksum/configmap: 43a1b36b06f9fb7b24922c22f33fc63d00e344855bde07167a8cd150615c26c3
-        checksum/secret: da9eac41ee385bbefc7e78b924e0ec07190125bf652b9f9debdf3dc00f3594dc
-        checksum/secret-jobservice: f2af765bea2857090a9bc10780ee75c3380a556cad6245b774d60a5fd6adf0c9
+        checksum/configmap: 9c1f5e98499eb05ad06749bd53bc6beee721e4a5032286d7f3674b7e40908a28
+        checksum/secret: bd350a7c84408265f0b50e14d8296dbab5f2cbe03bb0231a4f7b2bb39550f7e6
+        checksum/secret-jobservice: 304394fb1d49d18ee1429079b2af313c0e6aeadd70ab8f23b05e817ec0c73ee9
     spec:
       securityContext:
         runAsUser: 10000
@@ -62,19 +62,19 @@ spec:
           periodSeconds: 10
         envFrom:
         - configMapRef:
-            name: "myharbor1-core"
+            name: "myharbor2-core"
         - secretRef:
-            name: "myharbor1-core"
+            name: "myharbor2-core"
         env:
           - name: CORE_SECRET
             valueFrom:
               secretKeyRef:
-                name: myharbor1-core
+                name: myharbor2-core
                 key: secret
           - name: JOBSERVICE_SECRET
             valueFrom:
               secretKeyRef:
-                name: "myharbor1-jobservice"
+                name: "myharbor2-jobservice"
                 key: JOBSERVICE_SECRET
         ports:
         - containerPort: 8080
@@ -88,23 +88,27 @@ spec:
         - name: token-service-private-key
           mountPath: /etc/core/private_key.pem
           subPath: tls.key
+        - name: ca-download
+          mountPath: /etc/core/ca
         - name: psc
           mountPath: /etc/core/token
       volumes:
       - name: config
         configMap:
-          name: myharbor1-core
+          name: myharbor2-core
           items:
             - key: app.conf
               path: app.conf
       - name: secret-key
         secret:
-          secretName: myharbor1-core
+          secretName: myharbor2-core
           items:
             - key: secretKey
               path: key
       - name: token-service-private-key
         secret:
-          secretName: myharbor1-core
+          secretName: myharbor2-core
+      - name: ca-download
+        secret:
       - name: psc
         emptyDir: {}

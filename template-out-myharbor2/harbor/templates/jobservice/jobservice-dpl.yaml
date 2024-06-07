@@ -3,10 +3,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "myharbor1-jobservice"
+  name: "myharbor2-jobservice"
   labels:
     heritage: Helm
-    release: myharbor1
+    release: myharbor2
     chart: harbor
     app: "harbor"
     component: jobservice
@@ -17,22 +17,22 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      release: myharbor1
+      release: myharbor2
       app: "harbor"
       component: jobservice
   template:
     metadata:
       labels:
         heritage: Helm
-        release: myharbor1
+        release: myharbor2
         chart: harbor
         app: "harbor"
         component: jobservice
       annotations:
-        checksum/configmap: a62482269db43ce7a1a5407a60c07e85146f79a4980c02aadd78f9267116b6f5
-        checksum/configmap-env: 5aa9a627faf3d4d78a89ea12858752285d3f5cced13a13ded7431b0e17d8f383
-        checksum/secret: 1155ee2e325a57264d09e0d70387d47d368521d72b9f55958503989761c7412c
-        checksum/secret-core: 4ca6e47d35af08dbd1fd89888abdf913d28babe6dd2f50426ff03adce3f93141
+        checksum/configmap: 7c5e8506c3f7076d2ba4a62396d224247a214cdcb852843b0fbc7ebc555e2be2
+        checksum/configmap-env: 70b5d793729fdf71ad4e7b1aca685c3623c1a5e35568707f5713d7cef034fc7b
+        checksum/secret: 81918d0650acc587772828f12869a4ea81e18f14e196dcd61e5c776b03b35034
+        checksum/secret-core: f6497062bfb0ca07397f54a8e878ea98123bea377cbbf0d379ac118d913af033
     spec:
       securityContext:
         runAsUser: 10000
@@ -61,13 +61,13 @@ spec:
           - name: CORE_SECRET
             valueFrom:
               secretKeyRef:
-                name: myharbor1-core
+                name: myharbor2-core
                 key: secret
         envFrom:
         - configMapRef:
-            name: "myharbor1-jobservice-env"
+            name: "myharbor2-jobservice-env"
         - secretRef:
-            name: "myharbor1-jobservice"
+            name: "myharbor2-jobservice"
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -80,7 +80,7 @@ spec:
       volumes:
       - name: jobservice-config
         configMap:
-          name: "myharbor1-jobservice"
+          name: "myharbor2-jobservice"
       - name: job-logs
         persistentVolumeClaim:
-          claimName: myharbor1-jobservice
+          claimName: myharbor2-jobservice

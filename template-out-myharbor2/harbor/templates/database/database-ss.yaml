@@ -3,31 +3,31 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: "myharbor1-database"
+  name: "myharbor2-database"
   labels:
     heritage: Helm
-    release: myharbor1
+    release: myharbor2
     chart: harbor
     app: "harbor"
     component: database
 spec:
   replicas: 1
-  serviceName: "myharbor1-database"
+  serviceName: "myharbor2-database"
   selector:
     matchLabels:
-      release: myharbor1
+      release: myharbor2
       app: "harbor"
       component: database
   template:
     metadata:
       labels:
         heritage: Helm
-        release: myharbor1
+        release: myharbor2
         chart: harbor
         app: "harbor"
         component: database
       annotations:
-        checksum/secret: 58a5b860347d324d42ca170f4eaab101459bf84599410f146392f2beeb5ee769
+        checksum/secret: a68475b5f6b4770be5e74fd2c1b772fabd03b69a003475b431ff479d5b9358f2
     spec:
       securityContext:
         runAsUser: 999
@@ -81,7 +81,7 @@ spec:
           timeoutSeconds: 1
         envFrom:
           - secretRef:
-              name: "myharbor1-database"
+              name: "myharbor2-database"
         env:
           # put the data into a sub directory to avoid the permission issue in k8s with restricted psp enabled
           # more detail refer to https://github.com/goharbor/harbor-helm/issues/756
@@ -103,7 +103,7 @@ spec:
       name: "database-data"
       labels:
         heritage: Helm
-        release: myharbor1
+        release: myharbor2
         chart: harbor
         app: "harbor"
       annotations:
