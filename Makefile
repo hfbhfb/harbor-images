@@ -3,7 +3,7 @@ CMD1=/usr/bin/cp -f myca.crt /etc/pki/ca-trust/source/anchors/ ; /usr/bin/rm -f 
 CMD2=systemctl restart docker
 
 
-helmAppName=myharbor2
+helmAppName=myharbor1
 Space=harbor
 
 ltsName="lts-aa111"
