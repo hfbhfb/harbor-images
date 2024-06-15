@@ -30,8 +30,13 @@ make test1
 
 
 #### 访问   harborAdminPassword: "admin" 
-https://myharbor1.com:32443/
+https://myharbor1.com/
 
-curl -k -X GET -u 'admin:admin' https://myharbor1.com:32443/v2/_catalog 
+curl -k -X GET -u 'admin:admin' https://myharbor1.com/v2/_catalog 
+
+
+## 生成证书
+make root-ca
+make create-tls
 
 
